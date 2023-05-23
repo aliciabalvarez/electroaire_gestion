@@ -8,11 +8,7 @@ import {
 	onSnapshot
 } from 'firebase/firestore';
 import { blogCollectionReference } from '../../config/firebase.config';
-import { Navigate, redirect, useNavigate } from 'react-router-dom';
-
-import { useTable } from 'react-table';
-import useRows from './hooks/useRows';
-import useColumns from './hooks/useColumns';
+import { NavLink, redirect, useNavigate } from 'react-router-dom';
 
 const Home = () => {
 	const { currentUser } = useContext(AuthContext);
@@ -34,85 +30,31 @@ const Home = () => {
 		return () => subscribeToData();
 	}, []);
 
-	const columns = useColumns();
-	const data = useRows();
-	const table = useTable({ columns, data });
-
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		table;
-
 	return (
 		<>
+			<NavLink to='/newpost'>NUEVA TAREA</NavLink>
+
 			<h1>Bienvenido {currentUser ? currentUser.email : ''}</h1>
 			<h3>Aquí tienes tus tareas pendientes:</h3>
 			<br />
 			<br />
 			<br />
 			<input type='text' name='' placeholder='Buscar' id='' />
-			<select name='' id=''>
-				<option value=''>Todas las categorías</option>
-			</select>
-
-			{/* Añadimos las propiedades a nuestra tabla nativa */}
-			<table {...getTableProps()}>
-				<thead>
-					{
-						// Recorremos las columnas que previamente definimos
-						headerGroups.map(headerGroup => (
-							// Añadimos las propiedades al conjunto de columnas
-							<tr {...headerGroup.getHeaderGroupProps()}>
-								{
-									// Recorremos cada columna del conjunto para acceder a su información
-									headerGroup.headers.map(column => (
-										// Añadimos las propiedades a cada celda de la cabecera
-										<th {...column.getHeaderProps()}>
-											{
-												// Pintamos el título de nuestra columna (propiedad "Header")
-												column.render('Header')
-											}
-										</th>
-									))
-								}
-							</tr>
-						))
-					}
-				</thead>
-				{/* Añadimos las propiedades al cuerpo de la tabla */}
-				<tbody {...getTableBodyProps()}>
-					{
-						// Recorremos las filas
-						rows.map(row => {
-							// Llamamos a la función que prepara la fila previo renderizado
-							prepareRow(row);
-							return (
-								// Añadimos las propiedades a la fila
-								<tr {...row.getRowProps()}>
-									{
-										// Recorremos cada celda de la fila
-										row.cells.map(cell => {
-											// Añadimos las propiedades a cada celda de la fila
-											return (
-												<td {...cell.getCellProps()}>
-													{
-														// Pintamos el contenido de la celda
-														cell.render('Cell')
-													}
-												</td>
-											);
-										})
-									}
-								</tr>
-							);
-						})
-					}
-				</tbody>
-			</table>
 
 			{posts.map(post => (
 				<div key={post.id}>
-					<h2>{post.title}</h2>
-					<h3>{post.text}</h3>
-					<p>{post.author}</p>
+					<p>{post.id}</p>
+					<p>{post.iduser}</p>
+					<p>{post.categoria}</p>
+					<p>{post.cliente}</p>
+					<p>{post.modelo}</p>
+					<p>
+						{post.correo} <br /> {post.telefono}
+					</p>
+					<p>{post.fechacreacion}</p>
+					<p>{post.fechaentrega}</p>
+					<p>{post.descripcion}</p>
+
 					<img src={post.image} alt='' />
 					{currentUser && currentUser.email == post.author ? (
 						<>

@@ -68,9 +68,9 @@ const Menu = () => {
 									<StyledLi>
 										<a href=''>Histórico</a>
 									</StyledLi>
-									<StyledLi>
+									{/* <StyledLi>
 										<StyledLink to='/newpost'>NEW POST</StyledLink>
-									</StyledLi>
+									</StyledLi> */}
 									<StyledLi>
 										<StyledLink to='/profile'>PROFILE</StyledLink>
 									</StyledLi>

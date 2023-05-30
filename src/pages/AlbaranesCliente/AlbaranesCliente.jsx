@@ -12,16 +12,6 @@ import {
 } from 'firebase/firestore';
 import { db, clientesCollectionReference } from '../../config/firebase.config';
 import Modal from 'react-modal';
-import {
-	ModalContainer,
-	ModalContent,
-	ModalTitle,
-	CloseButton,
-	Title,
-	Text,
-	TitleText,
-	ClienteText
-} from './styles';
 
 function AlbaranesCliente() {
 	const [clientes, setClientes] = useState([]);
@@ -332,6 +322,7 @@ function AlbaranesCliente() {
 						<button onClick={() => handleEliminarAlbaran(albaran.id)}>
 							Eliminar
 						</button>
+
 						<button onClick={() => generarPDF(albaran)}>Descargar PDF</button>
 					</div>
 				))}

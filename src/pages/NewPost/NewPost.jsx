@@ -4,8 +4,9 @@ import { redirect, useNavigate } from 'react-router-dom';
 import { addDoc } from 'firebase/firestore';
 import { blogCollectionReference } from '../../config/firebase.config';
 import UploadPhoto from '../../components/UploadPhoto/UploadPhoto';
+import { ModalContent, ModalContainer, CloseButton } from './styles.js';
 
-const NewPost = () => {
+const NewPost = ({ closeModal, createPost }) => {
 	const { currentUser } = useContext(AuthContext);
 	if (!currentUser) {
 		return redirect('/');
@@ -20,25 +21,33 @@ const NewPost = () => {
 	const [imageState, setimageState] = useState('');
 	const [descripcionState, setDescripcionState] = useState('');
 
+	const handleSubmit = async e => {
+		e.preventDefault();
+
+		try {
+			await addDoc(blogCollectionReference, {
+				categoria: categoriaState,
+				cliente: clienteState,
+				modelo: modeloState,
+				correo: correoState,
+				telefono: telefonoState,
+				fechacreacion: new Date().toLocaleString(),
+				fechaentrega: fechaEntregaState,
+				descripcion: descripcionState,
+				image: imageState,
+				author: currentUser.email
+			});
+
+			closeModal();
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<>
-			<h1>New Post</h1>
-			<form
-				onSubmit={e =>
-					createPost(
-						e,
-						categoriaState,
-						clienteState,
-						modeloState,
-						correoState,
-						telefonoState,
-						fechaEntregaState,
-						imageState,
-						descripcionState,
-						currentUser.email
-					)
-				}
-			>
+			<h3>Nueva tarea</h3>
+			<form onSubmit={handleSubmit}>
 				Categoría:{' '}
 				<input
 					type='text'
@@ -90,6 +99,7 @@ const NewPost = () => {
 				{/* <UploadPhoto setimageState={setimageState}></UploadPhoto> */}
 				<br />
 				<input type='submit' value='Publicar nuevo post' />
+				<CloseButton onClick={closeModal}>Cerrar</CloseButton>
 			</form>
 		</>
 	);

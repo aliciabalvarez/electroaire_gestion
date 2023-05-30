@@ -4,10 +4,13 @@ import Home from '../pages/Home/Home';
 import Register from '../pages/Register/Register';
 import Login from '../pages/Login/Login';
 import Profile from '../pages/Profile/Profile';
+import Clientes from '../pages/Clientes/Clientes';
+import Proveedores from '../pages/Proveedores/Proveedores';
 import NewPost from '../pages/NewPost/NewPost';
 import PostDetails from '../pages/PostDetails/PostDetails';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/Auth.context';
+import AlbaranesCliente from '../pages/Albaranescliente/AlbaranesCliente';
 
 const Router = () => {
 	const { currentUser } = useContext(AuthContext);
@@ -24,6 +27,9 @@ const Router = () => {
 					<>
 						<Route index element={<Home />} />
 
+						<Route path='/clientes' element={<Clientes />} />
+						<Route path='/albaranescliente' element={<AlbaranesCliente />} />
+						<Route path='/proveedores' element={<Proveedores />} />
 						<Route path='/profile' element={<Profile />} />
 						<Route path='/newpost' element={<NewPost />} />
 						<Route path='/post-details' element={<PostDetails />} />

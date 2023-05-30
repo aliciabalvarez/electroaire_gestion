@@ -5,6 +5,8 @@ const ContenedorLogin = styled.div`
 	margin: auto;
 	width: 500px;
 	margin-top: 10vh;
+	position: absolute;
+    left: 25%;
 `;
 const StyledImg = styled.img`
 	width: 50px;

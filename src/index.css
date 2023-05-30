@@ -1,5 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Roboto:wght@100;300;400&display=swap');
 body {
-	font-family: sans-serif;
-	background-color: #eeeeee;
+	font-family: 'Roboto', sans-serif;
+		background-color: #eeeeee;
 	margin-left: 400px;
 }
+/* .ReactModal__Content, .ReactModal__Overlay{
+	background: none !important;
+    border: none !important;
+}
+.sc-dPwPAC, .sc-dSbvwS{
+    background-color: rgb(0 0 0 / 41%) !important;
+    backdrop-filter: blur(1px) !important;
+} */

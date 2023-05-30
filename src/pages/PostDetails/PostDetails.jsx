@@ -7,10 +7,25 @@ const PostDetails = () => {
 	const { state } = useLocation();
 	console.log(state);
 
-	const [postTitle, setPostTitle] = useState(state.title);
-	const [postText, setPostText] = useState(state.text);
-	console.log(postTitle);
-	console.log(postText);
+	const [post, setPost] = useState(state);
+
+	const handleInputChange = e => {
+		const { name, value } = e.target;
+		setPost(prevPost => ({
+			...prevPost,
+			[name]: value
+		}));
+	};
+
+	const handleUpdatePost = async () => {
+		try {
+			const postToUpdate = doc(blogCollectionReference, post.id);
+			await updateDoc(postToUpdate, post);
+			console.log('Documento actualizado con éxito');
+		} catch (error) {
+			console.error('Error al actualizar el documento:', error);
+		}
+	};
 
 	return (
 		<>
@@ -18,38 +33,78 @@ const PostDetails = () => {
 			<form onSubmit={e => e.preventDefault()}>
 				<input
 					type='text'
-					name=''
-					id=''
-					value={postTitle}
-					onChange={e => setPostTitle(e.target.value)}
+					name='id'
+					value={post.id}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='iduser'
+					value={post.iduser}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='categoria'
+					value={post.categoria}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='cliente'
+					value={post.cliente}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='modelo'
+					value={post.modelo}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='correo'
+					value={post.correo}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='telefono'
+					value={post.telefono}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='fechacreacion'
+					value={post.fechacreacion}
+					onChange={handleInputChange}
+				/>
+				<br />
+				<input
+					type='text'
+					name='fechaentrega'
+					value={post.fechaentrega}
+					onChange={handleInputChange}
 				/>
 				<br />
 				<textarea
 					type='text'
-					name=''
-					id=''
-					value={postText}
-					onChange={e => setPostText(e.target.value)}
+					name='descripcion'
+					value={post.descripcion}
+					onChange={handleInputChange}
 				></textarea>
 				<br />
-				<button onClick={() => updatePost(state.id, postTitle, postText)}>
-					ACTUALIZAR INFO
-				</button>
+				<button onClick={handleUpdatePost}>ACTUALIZAR INFO</button>
 			</form>
 		</>
 	);
-};
-
-const updatePost = async (id, postTitle, postText) => {
-	console.log(id, postText, postTitle);
-	const newData = { title: postTitle, text: postText };
-	try {
-		const postToUpdate = doc(blogCollectionReference, id);
-		await updateDoc(postToUpdate, newData);
-		console.log('Documento actualizado con éxito');
-	} catch (error) {
-		console.error('Error al actualizar el documento:', error);
-	}
 };
 
 export default PostDetails;

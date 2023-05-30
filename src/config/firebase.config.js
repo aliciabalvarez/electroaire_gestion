@@ -23,7 +23,10 @@ const app = initializeApp(firebaseConfig);
 //Firestore module
 const db = getFirestore(app);
 export const blogCollectionReference = collection(db, 'pruebaBlog');
+export const clientesCollectionReference = collection(db, 'clientes');
+export const ProveedoresCollectionReference = collection(db, 'proveedores');
 
+export { db };
 //storage module
 export const storage = getStorage(app);
 

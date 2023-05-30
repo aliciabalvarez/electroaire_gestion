@@ -14,6 +14,28 @@ import { AuthContext } from '../../contexts/Auth.context.js';
 
 const Menu = () => {
 	const { currentUser } = useContext(AuthContext);
+
+	// Función para agregar la fecha actual
+	const agregarFecha = () => {
+		const fecha = new Date(); // Obtiene la fecha actual
+		const dia = fecha.getDate(); // Obtiene el día del mes
+		const mes = fecha.getMonth() + 1; // Obtiene el mes (0-11)
+		const anio = fecha.getFullYear(); // Obtiene el año
+
+		// Formatea la fecha como "dd/mm/yyyy"
+		const fechaFormateada = `${dia}/${mes}/${anio}`;
+
+		// Obtiene la hora actual
+		const horas = fecha.getHours(); // Obtiene las horas (0-23)
+		const minutos = fecha.getMinutes(); // Obtiene los minutos (0-59)
+		const segundos = fecha.getSeconds(); // Obtiene los segundos (0-59)
+
+		// Formatea la hora como "hh:mm:ss"
+		const horaFormateada = `${horas}:${minutos}`;
+
+		return `${fechaFormateada} ${horaFormateada}`;
+	};
+
 	return (
 		<nav>
 			<StyledUl>
@@ -33,7 +55,9 @@ const Menu = () => {
 							<StyledH4Menu>
 								Sesión iniciada: <br /> {currentUser ? currentUser.email : ''}
 							</StyledH4Menu>
-							<StyledPMenu>Fecha de hoy</StyledPMenu>
+							<StyledPMenu>{agregarFecha()}</StyledPMenu>{' '}
+							{/* Agrega la fecha y hora de hoy */}
+							{/* Agrega la fecha de hoy */}
 							<StyledHr />
 							<StyledNav>
 								<ul>
@@ -41,18 +65,17 @@ const Menu = () => {
 										<a href=''>Inicio</a>
 									</StyledLi>
 									<StyledLi>
-										<a href=''>Clientes</a>
+										<StyledLink to='/clientes'>CLIENTES</StyledLink>
 										<ul>
-											<StyledLi>
-												<a href=''>Albaranes</a>
-											</StyledLi>
+											<StyledLink to='/albaranescliente'>ALBARANES</StyledLink>
+
 											<StyledLi>
 												<a href=''>Facturas</a>
 											</StyledLi>
 										</ul>
 									</StyledLi>
 									<StyledLi>
-										<a href=''>Proveedores</a>
+										<StyledLink to='/proveedores'>PROVEEDORES</StyledLink>
 										<ul>
 											<StyledLi>
 												<a href=''>Albaranes</a>

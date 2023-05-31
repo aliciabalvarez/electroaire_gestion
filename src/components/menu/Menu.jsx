@@ -27,22 +27,16 @@ const Menu = () => {
 	const { currentUser } = useContext(AuthContext);
 	const navigate = useNavigate();
 
-	// Función para agregar la fecha actual
 	const agregarFecha = () => {
-		const fecha = new Date(); // Obtiene la fecha actual
-		const dia = fecha.getDate(); // Obtiene el día del mes
-		const mes = fecha.getMonth() + 1; // Obtiene el mes (0-11)
-		const anio = fecha.getFullYear(); // Obtiene el año
-
-		// Formatea la fecha como "dd/mm/yyyy"
+		const fecha = new Date();
+		const dia = fecha.getDate();
+		const mes = fecha.getMonth() + 1;
+		const anio = fecha.getFullYear();
 		const fechaFormateada = `${dia}/${mes}/${anio}`;
+		const horas = fecha.getHours();
+		const minutos = fecha.getMinutes();
+		const segundos = fecha.getSeconds();
 
-		// Obtiene la hora actual
-		const horas = fecha.getHours(); // Obtiene las horas (0-23)
-		const minutos = fecha.getMinutes(); // Obtiene los minutos (0-59)
-		const segundos = fecha.getSeconds(); // Obtiene los segundos (0-59)
-
-		// Formatea la hora como "hh:mm:ss"
 		const horaFormateada = `${horas}:${minutos}`;
 
 		return `${fechaFormateada} ${horaFormateada}`;
@@ -56,15 +50,8 @@ const Menu = () => {
 	return (
 		<nav>
 			<StyledUl>
-				{/* <StyledLi>
-					<StyledLink to='/'>HOME</StyledLink>
-				</StyledLi> */}
 				{!currentUser ? (
-					<>
-						{/* <StyledLi>
-							<StyledLink to='/login'>LOGIN</StyledLink>
-						</StyledLi> */}
-					</>
+					<></>
 				) : (
 					<>
 						<ContainerMenu>

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import download from 'downloadjs';
 import {
@@ -12,6 +14,30 @@ import {
 } from 'firebase/firestore';
 import { db, clientesCollectionReference } from '../../config/firebase.config';
 import Modal from 'react-modal';
+import {
+	ModalContainer,
+	ModalContentClients,
+	CloseButton,
+	StyledFormComponent,
+	StyledFormInput,
+	StyledFormTextarea,
+	StyledFormSelect,
+	StyledSave,
+	StyledForm,
+	StyledTitleForm,
+	StyledContainer,
+	StyledTitle,
+	StyledNewTask,
+	StyledTarjetaMenu,
+	StyledPTarjetaMenu,
+	StyledButtonTarjetaEditar,
+	StyledButtonTarjetaEliminar,
+	StyledPTarjetaMenuBig,
+	StyledButtonTarjetaPDF,
+	StyledMenuHome,
+	StyledPMenuHome,
+	StyledPMenuHomeBig
+} from './styles.js';
 
 function AlbaranesCliente() {
 	const [clientes, setClientes] = useState([]);
@@ -154,7 +180,7 @@ function AlbaranesCliente() {
 
 		if (albaran) {
 			setClienteSeleccionado(albaran.cliente);
-			setNumeroAlbaran(albaran.numero);
+			setNumeroAlbaran(albaran.id);
 			setFechaAlbaran(albaran.fecha);
 			setVehiculo(albaran.vehiculo);
 			setDescripcionServicios(albaran.servicios);
@@ -184,59 +210,97 @@ function AlbaranesCliente() {
 		const pdfDoc = await PDFDocument.create();
 		const page = pdfDoc.addPage();
 
-		const { width, height } = page.getSize();
+		const fontSize = 12;
+		const pageWidth = page.getWidth();
+		const pageHeight = page.getHeight();
+		const margin = 50;
 
-		page.drawText('Albarán', {
-			x: 50,
-			y: height - 50,
-			size: 18,
-			font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-			color: rgb(0, 0, 0)
+		const headerText = 'Albarán';
+		const albaranData = [
+			{ label: 'Número de Albarán', value: albaran.id },
+			{ label: 'Fecha', value: albaran.fecha },
+			{ label: 'Cliente', value: albaran.cliente },
+			{ label: 'Vehículo', value: albaran.vehiculo },
+			{ label: 'Descripción', value: albaran.servicios },
+			{ label: 'Coste total', value: albaran.coste },
+			{ label: 'Forma de pago', value: albaran.pago }
+		];
+
+		const firmaText = 'Firma: _______________________';
+
+		// Estilos
+		const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+		const textColor = rgb(0, 0, 0);
+
+		// Encabezado
+		page.drawText(headerText, {
+			x: margin,
+			y: pageHeight - margin,
+			size: fontSize + 6,
+			font,
+			color: textColor,
+			opacity: 0.75
 		});
 
-		page.drawText('Cliente:', {
-			x: 50,
-			y: height - 80,
-			size: 12,
-			font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-			color: rgb(0, 0, 0)
+		// Datos del albarán
+		let y = pageHeight - margin - (fontSize + 6) - 10;
+		albaranData.forEach(({ label, value }) => {
+			y -= fontSize + 2;
+			page.drawText(`${label}: ${value}`, {
+				x: margin,
+				y,
+				size: fontSize,
+				font,
+				color: textColor
+			});
 		});
 
-		page.drawText(albaran.cliente, {
-			x: 120,
-			y: height - 80,
-			size: 12,
-			font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-			color: rgb(0, 0, 0)
+		// Firma
+		y -= 30;
+		page.drawText(firmaText, {
+			x: margin,
+			y,
+			size: fontSize,
+			font,
+			color: textColor
 		});
 
-		// Agregar más campos del albarán según sea necesario
-		// Utiliza los componentes TitleText, Text y otros definidos en styles.js
-
+		// Generar el PDF como ArrayBuffer
 		const pdfBytes = await pdfDoc.save();
-
-		// Descargar el PDF utilizando la biblioteca 'downloadjs'
-		download(pdfBytes, 'albaran.pdf', 'application/pdf');
+		const nombreArchivo = `albaran_${albaran.id}.pdf`;
+		download(pdfBytes, nombreArchivo, 'application/pdf');
 	};
 
 	return (
 		<div>
-			<h2>Albaranes cliente</h2>
-			<button onClick={() => setModalOpen(true)}>Agregar Albarán</button>
-			{modalOpen && (
-				<Modal isOpen={true} onRequestClose={() => setModalOpen(false)}>
-					<h3>{editingAlbaranId ? 'Editar Albarán' : 'Agregar Albarán'}</h3>
-					<form onSubmit={handleSubmit}>
-						<div>
-							<label>Cliente:</label>
+			<StyledContainer>
+				<div>
+					<StyledTitle>Listado de Albaranes de Clientes</StyledTitle>
+				</div>
+				<StyledNewTask to='#' onClick={() => setModalOpen(true)}>
+					Nuevo Albarán
+				</StyledNewTask>
+			</StyledContainer>
 
-							<input
+			{modalOpen && (
+				<Modal
+					isOpen={true}
+					onRequestClose={() => setModalOpen(false)}
+					className='custom-modal'
+					overlayClassName='custom-overlay'
+				>
+					<StyledTitleForm>
+						{editingAlbaranId ? 'Editar Albarán' : 'Nuevo Albarán'}
+					</StyledTitleForm>
+					<StyledForm onSubmit={handleSubmit}>
+						<StyledFormComponent>
+							<StyledFormInput
 								type='text'
 								value={filtroClientes}
 								onChange={event => setFiltroClientes(event.target.value)}
 								placeholder='Buscar cliente'
 							/>
-							<select
+							<StyledFormSelect
 								value={clienteSeleccionado}
 								onChange={handleClienteChange}
 							>
@@ -248,83 +312,94 @@ function AlbaranesCliente() {
 											{cliente}
 										</option>
 									))}
-							</select>
-						</div>
-						<div>
-							<label>Número de Albarán:</label>
-							<input
-								type='text'
-								value={numeroAlbaran}
-								onChange={handleNumeroAlbaranChange}
-							/>
-						</div>
-						<div>
-							<label>Fecha de Albarán:</label>
-							<input
-								type='text'
+							</StyledFormSelect>
+						</StyledFormComponent>
+
+						<StyledFormComponent>
+							<StyledFormInput
+								placeholder='Fecha del Albarán'
+								type='date'
 								value={fechaAlbaran}
 								onChange={handleFechaAlbaranChange}
 							/>
-						</div>
-						<div>
-							<label>Vehículo:</label>
-							<input
+						</StyledFormComponent>
+						<StyledFormComponent>
+							<StyledFormInput
+								placeholder='Vehículo'
 								type='text'
 								value={vehiculo}
 								onChange={handleVehiculoChange}
 							/>
-						</div>
-						<div>
-							<label>Descripción de Servicios:</label>
-							<input
+						</StyledFormComponent>
+						<StyledFormComponent>
+							<StyledFormInput
+								placeholder='Descripción de Servicios'
 								type='text'
 								value={descripcionServicios}
 								onChange={handleDescripcionServiciosChange}
 							/>
-						</div>
-						<div>
-							<label>Coste Total:</label>
-							<input
+						</StyledFormComponent>
+						<StyledFormComponent>
+							<StyledFormInput
+								placeholder='Coste total'
 								type='text'
 								value={costeTotal}
 								onChange={handleCosteTotalChange}
 							/>
-						</div>
-						<div>
-							<label>Forma de Pago:</label>
-							<input
+						</StyledFormComponent>
+						<StyledFormComponent>
+							<StyledFormInput
+								placeholder='Forma de pago'
 								type='text'
 								value={formaPago}
 								onChange={handleFormaPagoChange}
 							/>
-						</div>
-						<button type='submit'>
-							{editingAlbaranId ? 'Guardar Cambios' : 'Agregar'}
-						</button>
-						<button onClick={() => setModalOpen(false)}>Cancelar</button>
-					</form>
+						</StyledFormComponent>
+						<StyledSave
+							type='submit'
+							value={editingAlbaranId ? 'Guardar' : 'Agregar'}
+						/>
+
+						<CloseButton onClick={() => setModalOpen(false)}>
+							<FontAwesomeIcon icon={faXmark} />
+						</CloseButton>
+					</StyledForm>
 				</Modal>
 			)}
+			<StyledMenuHome>
+				<StyledPMenuHomeBig>ID de Albarán</StyledPMenuHomeBig>
+				<StyledPMenuHome>Nombre</StyledPMenuHome>
+				<StyledPMenuHomeBig>Fecha albarán</StyledPMenuHomeBig>
+				<StyledPMenuHome>Vehículo</StyledPMenuHome>
+				<StyledPMenuHomeBig>Descripción</StyledPMenuHomeBig>
+				<StyledPMenuHome>Coste total</StyledPMenuHome>
+				<StyledPMenuHomeBig>Método de pago</StyledPMenuHomeBig>
+			</StyledMenuHome>
 			<div>
-				<h3>Albaranes creados:</h3>
 				{albaranes.map(albaran => (
-					<div key={albaran.id} className='albaran-module'>
-						<p>Id de Albarán: {albaran.id}</p>
-						<p>Cliente: {albaran.cliente}</p>
-						<p>Fecha de Albarán: {albaran.fecha}</p>
-						<p>Vehículo: {albaran.vehiculo}</p>
-						<p>Descripción de Servicios: {albaran.servicios}</p>
-						<p>Coste Total: {albaran.coste}</p>
-						<p>Forma de Pago: {albaran.pago}</p>
-						<button onClick={() => handleEditarAlbaran(albaran.id)}>
-							Editar
-						</button>
-						<button onClick={() => handleEliminarAlbaran(albaran.id)}>
-							Eliminar
-						</button>
+					<StyledTarjetaMenu key={albaran.id} className='albaran-module'>
+						<StyledPTarjetaMenuBig>{albaran.id}</StyledPTarjetaMenuBig>
+						<StyledPTarjetaMenu>{albaran.cliente}</StyledPTarjetaMenu>
+						<StyledPTarjetaMenuBig>{albaran.fecha}</StyledPTarjetaMenuBig>
+						<StyledPTarjetaMenu>{albaran.vehiculo}</StyledPTarjetaMenu>
+						<StyledPTarjetaMenuBig>{albaran.servicios}</StyledPTarjetaMenuBig>
+						<StyledPTarjetaMenu>{albaran.coste}</StyledPTarjetaMenu>
+						<StyledPTarjetaMenuBig>{albaran.pago}</StyledPTarjetaMenuBig>
+						<StyledButtonTarjetaEditar
+							onClick={() => handleEditarAlbaran(albaran.id)}
+						>
+							<FontAwesomeIcon icon={faPenToSquare} />
+						</StyledButtonTarjetaEditar>
+						<StyledButtonTarjetaEliminar
+							onClick={() => handleEliminarAlbaran(albaran.id)}
+						>
+							<FontAwesomeIcon icon={faXmark} />
+						</StyledButtonTarjetaEliminar>
 
-						<button onClick={() => generarPDF(albaran)}>Descargar PDF</button>
-					</div>
+						<StyledButtonTarjetaPDF onClick={() => generarPDF(albaran)}>
+							PDF
+						</StyledButtonTarjetaPDF>
+					</StyledTarjetaMenu>
 				))}
 			</div>
 		</div>

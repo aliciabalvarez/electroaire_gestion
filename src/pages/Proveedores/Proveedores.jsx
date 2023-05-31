@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
 	addDoc,
 	collection,
@@ -7,9 +9,31 @@ import {
 	getDocs,
 	updateDoc
 } from 'firebase/firestore';
-import { ProveedoresCollectionReference } from '../../config/firebase.config';
+import {
+	db,
+	ProveedoresCollectionReference
+} from '../../config/firebase.config';
 import Modal from 'react-modal';
-import { ModalContainer, ModalContent, CloseButton } from './styles';
+import {
+	ModalContainer,
+	ModalContentClients,
+	CloseButton,
+	StyledFormComponent,
+	StyledFormInput,
+	StyledFormTextarea,
+	StyledSave,
+	StyledForm,
+	StyledTitleForm,
+	StyledContainer,
+	StyledTitle,
+	StyledSearch,
+	StyledNewTask,
+	StyledTarjetaMenu,
+	StyledPTarjetaMenu,
+	StyledButtonTarjetaEditar,
+	StyledButtonTarjetaEliminar,
+	StyledPTarjetaMenuBig
+} from './styles.js';
 
 function Proveedores() {
 	const [showModal, setShowModal] = useState(false);
@@ -203,175 +227,169 @@ function Proveedores() {
 			proveedor.sitioWeb.toLowerCase().includes(searchTermLower)
 		);
 	});
+
 	return (
 		<div>
-			<h1>Proveedores</h1>
-			<input
-				type='text'
-				placeholder='Buscar por categoría'
-				value={searchTerm}
-				onChange={handleSearchChange}
-			/>
-			<button onClick={abrirModal}>Agregar Proveedor</button>
-			<table>
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Tipo de Proveedor</th>
-						<th>Dirección</th>
-						<th>Teléfono</th>
-						<th>Correo</th>
-						<th>Sitio Web</th>
-						<th>Acciones</th>
-					</tr>
-				</thead>
-				<tbody>
-					{filteredProveedores.map(proveedor => (
-						<tr key={proveedor.id}>
-							<td>{proveedor.nombre}</td>
-							<td>{proveedor.tipoProveedor}</td>
-							<td>{proveedor.direccion}</td>
-							<td>{proveedor.telefono}</td>
-							<td>{proveedor.correo}</td>
-							<td>{proveedor.sitioWeb}</td>
-							<td>
-								<button onClick={() => abrirModalEdicion(proveedor)}>
-									Editar
-								</button>
-								<button onClick={() => handleDelete(proveedor)}>
-									Eliminar
-								</button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<StyledContainer>
+				<div>
+					<StyledTitle>Listado de Proveedores</StyledTitle>
+					<StyledSearch
+						type='text'
+						placeholder='Buscar'
+						value={searchTerm}
+						onChange={handleSearchChange}
+					/>
+				</div>
+				<StyledNewTask to='#' onClick={abrirModal}>
+					Nuevo Proveedor
+				</StyledNewTask>
+			</StyledContainer>
+
+			{filteredProveedores.map(proveedor => (
+				<StyledTarjetaMenu key={proveedor.id}>
+					<StyledPTarjetaMenu>{proveedor.nombre}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenu>{proveedor.tipoProveedor}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenuBig>{proveedor.direccion}</StyledPTarjetaMenuBig>
+					<StyledPTarjetaMenu>{proveedor.telefono}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenuBig>{proveedor.correo}</StyledPTarjetaMenuBig>
+					<StyledPTarjetaMenuBig>{proveedor.sitioWeb}</StyledPTarjetaMenuBig>
+					<StyledButtonTarjetaEditar
+						onClick={() => abrirModalEdicion(proveedor)}
+					>
+						<FontAwesomeIcon icon={faPenToSquare} />
+					</StyledButtonTarjetaEditar>
+					<StyledButtonTarjetaEliminar onClick={() => handleDelete(proveedor)}>
+						<FontAwesomeIcon icon={faXmark} />
+					</StyledButtonTarjetaEliminar>
+				</StyledTarjetaMenu>
+			))}
 
 			<Modal
 				isOpen={showModal}
 				onRequestClose={cerrarModal}
 				contentLabel='Agregar Proveedor'
+				className='custom-modal'
+				overlayClassName='custom-overlay'
 			>
-				<ModalContainer>
-					<ModalContent>
-						<h2>Agregar Proveedor</h2>
-						<form onSubmit={handleSubmit}>
-							<label>
-								Nombre:
-								<input
-									type='text'
-									value={nombre}
-									onChange={event => setNombre(event.target.value)}
-								/>
-							</label>
-							<label>
-								Tipo de Proveedor:
-								<input
-									type='text'
-									value={tipoProveedor}
-									onChange={event => setTipoProveedor(event.target.value)}
-								/>
-							</label>
-							<label>
-								Dirección:
-								<input
-									type='text'
-									value={direccion}
-									onChange={event => setDireccion(event.target.value)}
-								/>
-							</label>
-							<label>
-								Teléfono:
-								<input
-									type='text'
-									value={telefono}
-									onChange={event => setTelefono(event.target.value)}
-								/>
-							</label>
-							<label>
-								Correo:
-								<input
-									type='text'
-									value={correo}
-									onChange={event => setCorreo(event.target.value)}
-								/>
-							</label>
-							<label>
-								Sitio Web:
-								<input
-									type='text'
-									value={sitioWeb}
-									onChange={event => setSitioWeb(event.target.value)}
-								/>
-							</label>
-							<button type='submit'>Agregar</button>
-						</form>
-						<CloseButton onClick={cerrarModal}>Cerrar</CloseButton>
-					</ModalContent>
-				</ModalContainer>
+				<StyledTitleForm>Agregar Proveedor</StyledTitleForm>
+				<StyledForm onSubmit={handleSubmit}>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Nombre'
+							type='text'
+							value={nombre}
+							onChange={event => setNombre(event.target.value)}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Tipo de proveedor'
+							type='text'
+							value={tipoProveedor}
+							onChange={event => setTipoProveedor(event.target.value)}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Dirección'
+							type='text'
+							value={direccion}
+							onChange={event => setDireccion(event.target.value)}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Teléfono'
+							type='text'
+							value={telefono}
+							onChange={event => setTelefono(event.target.value)}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Correo'
+							type='text'
+							value={correo}
+							onChange={event => setCorreo(event.target.value)}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Sitio web'
+							type='text'
+							value={sitioWeb}
+							onChange={event => setSitioWeb(event.target.value)}
+						/>
+					</StyledFormComponent>
+					<StyledSave type='submit' value='Agregar' />
+				</StyledForm>
+				<CloseButton onClick={cerrarModal}>
+					{' '}
+					<FontAwesomeIcon icon={faXmark} />
+				</CloseButton>
 			</Modal>
 			<Modal
 				isOpen={showEditModal}
 				onRequestClose={cerrarModalEdicion}
 				contentLabel='Editar Proveedor'
+				className='custom-modal'
+				overlayClassName='custom-overlay'
 			>
-				<ModalContainer>
-					<ModalContent>
-						<h2>Editar Proveedor</h2>
-						<form onSubmit={handleEditSubmit}>
-							<label>
-								Nombre:
-								<input
-									type='text'
-									value={nombreEdit}
-									onChange={handleNombreEditChange}
-								/>
-							</label>
-							<label>
-								Tipo de Proveedor:
-								<input
-									type='text'
-									value={tipoProveedorEdit}
-									onChange={handleTipoProveedorEditChange}
-								/>
-							</label>
-							<label>
-								Dirección:
-								<input
-									type='text'
-									value={direccionEdit}
-									onChange={handleDireccionEditChange}
-								/>
-							</label>
-							<label>
-								Teléfono:
-								<input
-									type='text'
-									value={telefonoEdit}
-									onChange={handleTelefonoEditChange}
-								/>
-							</label>
-							<label>
-								Correo:
-								<input
-									type='text'
-									value={correoEdit}
-									onChange={handleCorreoEditChange}
-								/>
-							</label>
-							<label>
-								Sitio Web:
-								<input
-									type='text'
-									value={sitioWebEdit}
-									onChange={handleSitioWebEditChange}
-								/>
-							</label>
-							<button type='submit'>Guardar Cambios</button>
-						</form>
-						<CloseButton onClick={cerrarModalEdicion}>Cerrar</CloseButton>
-					</ModalContent>
-				</ModalContainer>
+				<StyledTitleForm>Editar Proveedor</StyledTitleForm>
+				<StyledForm onSubmit={handleEditSubmit}>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Nombre'
+							type='text'
+							value={nombreEdit}
+							onChange={handleNombreEditChange}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Tipo de Proveedor'
+							type='text'
+							value={tipoProveedorEdit}
+							onChange={handleTipoProveedorEditChange}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Dirección'
+							type='text'
+							value={direccionEdit}
+							onChange={handleDireccionEditChange}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Teléfono'
+							type='text'
+							value={telefonoEdit}
+							onChange={handleTelefonoEditChange}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Correo'
+							type='text'
+							value={correoEdit}
+							onChange={handleCorreoEditChange}
+						/>
+					</StyledFormComponent>
+					<StyledFormComponent>
+						<StyledFormInput
+							placeholder='Sitio web'
+							type='text'
+							value={sitioWebEdit}
+							onChange={handleSitioWebEditChange}
+						/>
+					</StyledFormComponent>
+					<StyledSave type='submit' value='Guardar' />
+				</StyledForm>
+				<CloseButton onClick={cerrarModalEdicion}>
+					<FontAwesomeIcon icon={faXmark} />
+				</CloseButton>
 			</Modal>
 		</div>
 	);

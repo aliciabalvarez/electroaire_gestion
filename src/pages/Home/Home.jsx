@@ -18,7 +18,14 @@ import {
 	StyledButtonTarjetaEliminar,
 	StyledPTarjetaMenuBig,
 	StyledPTarjetaMenu,
-	StyledPTarjetaMenuDescription
+	StyledPTarjetaMenuDescription,
+	CloseButton,
+	StyledFormComponent,
+	StyledFormInput,
+	StyledFormTextarea,
+	StyledSaveForm,
+	StyledForm,
+	StyledTitleForm
 } from './styles.js';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/Auth.context';
@@ -137,6 +144,14 @@ const Home = () => {
 	return (
 		<>
 			<div>
+				<Modal
+					isOpen={modalIsOpen}
+					onRequestClose={closeModal}
+					className='custom-modal'
+					overlayClassName='custom-overlay'
+				>
+					<NewPost closeModal={closeModal} createPost={createPost} />
+				</Modal>
 				<StyledContainer>
 					<div>
 						<StyledTitle>Bienvenido</StyledTitle>
@@ -149,156 +164,143 @@ const Home = () => {
 					</StyledNewTask>
 				</StyledContainer>
 
-				<Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-					<ModalWrapper>
-						<ModalContent>
-							<NewPost closeModal={closeModal} createPost={createPost} />
-						</ModalContent>
-					</ModalWrapper>
-				</Modal>
-
 				{selectedPost && (
-					<Modal isOpen={true} onRequestClose={() => setSelectedPost(null)}>
-						<ModalWrapper>
-							<ModalContent>
-								<div>
-									<h3>Editar tarea</h3>
-									<form
-										onSubmit={e => {
-											e.preventDefault();
-											handleUpdatePost(selectedPost.id, selectedPost);
-											setSelectedPost(null);
-										}}
-									>
-										<input
-											type='text'
-											name='iduser'
-											placeholder='userid'
-											value={selectedPost.iduser}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													iduser: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='categoria'
-											placeholder='categoria'
-											value={selectedPost.categoria}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													categoria: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='cliente'
-											placeholder='cliente'
-											value={selectedPost.cliente}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													cliente: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='modelo'
-											placeholder='modelo'
-											value={selectedPost.modelo}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													modelo: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='correo'
-											placeholder='correo'
-											value={selectedPost.correo}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													correo: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='telefono'
-											placeholder='telefono'
-											value={selectedPost.telefono}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													telefono: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='fechacreacion'
-											placeholder='Fecha creación'
-											value={selectedPost.fechacreacion}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													fechacreacion: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<input
-											type='text'
-											name='fechaentrega'
-											placeholder='Fecha entrega'
-											value={selectedPost.fechaentrega}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													fechaentrega: e.target.value
-												}))
-											}
-										/>
-										<br />
-										<textarea
-											type='text'
-											name='descripcion'
-											placeholder='Descripción'
-											value={selectedPost.descripcion}
-											onChange={e =>
-												setSelectedPost(prevPost => ({
-													...prevPost,
-													descripcion: e.target.value
-												}))
-											}
-										></textarea>
-										<br />
-										<button type='submit'>ACTUALIZAR INFO</button>
-									</form>
-									<button onClick={() => setSelectedPost(null)}>Cerrar</button>
-								</div>
-							</ModalContent>
-						</ModalWrapper>
+					<Modal
+						className='custom-modal'
+						overlayClassName='custom-overlay'
+						isOpen={true}
+						onRequestClose={() => setSelectedPost(null)}
+					>
+						<div>
+							<StyledTitleForm>Editar tarea</StyledTitleForm>
+							<StyledForm
+								onSubmit={e => {
+									e.preventDefault();
+									handleUpdatePost(selectedPost.id, selectedPost);
+									setSelectedPost(null);
+								}}
+							>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='text'
+										name='categoria'
+										placeholder='categoria'
+										value={selectedPost.categoria}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												categoria: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='text'
+										name='cliente'
+										placeholder='cliente'
+										value={selectedPost.cliente}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												cliente: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='text'
+										name='modelo'
+										placeholder='modelo'
+										value={selectedPost.modelo}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												modelo: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='text'
+										name='correo'
+										placeholder='correo'
+										value={selectedPost.correo}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												correo: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='text'
+										name='telefono'
+										placeholder='telefono'
+										value={selectedPost.telefono}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												telefono: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='text'
+										name='fechacreacion'
+										placeholder='Fecha creación'
+										value={selectedPost.fechacreacion}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												fechacreacion: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormComponent>
+									<StyledFormInput
+										type='date'
+										name='fechaentrega'
+										placeholder='Fecha entrega'
+										value={selectedPost.fechaentrega}
+										onChange={e =>
+											setSelectedPost(prevPost => ({
+												...prevPost,
+												fechaentrega: e.target.value
+											}))
+										}
+									/>
+								</StyledFormComponent>
+								<StyledFormTextarea
+									name='descripcion'
+									placeholder='Descripción'
+									value={selectedPost.descripcion}
+									onChange={e =>
+										setSelectedPost(prevPost => ({
+											...prevPost,
+											descripcion: e.target.value
+										}))
+									}
+								/>
+								<StyledSaveForm type='submit' value='Actualizar' />
+							</StyledForm>
+							<CloseButton onClick={() => setSelectedPost(null)}>
+								<FontAwesomeIcon icon={faXmark} />
+							</CloseButton>
+						</div>
 					</Modal>
 				)}
 
 				<StyledSearch
 					type='text'
-					placeholder='Buscar por categoría'
+					placeholder='Buscar'
 					value={searchTerm}
 					onChange={e => setSearchTerm(e.target.value)}
 				/>

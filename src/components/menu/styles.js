@@ -10,24 +10,30 @@ const StyledUl = styled.ul`
 	color: pink;
 `;
 const StyledLink = styled(NavLink)`
+color: #353535;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
 	&.active {
-		color: green;
+		color: rgb(161, 193, 30);
 	}
 	&:active {
 		color: blue;
 	}
 `;
 const ContainerMenu = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100vh;
-	background-color: white;
-	width: 400px;
-	text-align: center;
-	padding: 40px;
-	box-sizing: border-box;
-	box-shadow: 1px 1px 20px #0000001c;
+position: fixed;
+top: 0px;
+left: 0px;
+height: 100vh;
+background-color: white;
+width: 25%;
+min-width: 200px;
+text-align: center;
+padding: 50px 3%;
+box-sizing: border-box;
+box-shadow: rgba(0, 0, 0, 0.11) 1px 1px 20px;
 `;
 const StyledImgBigLogo = styled.img`
 	width: 160px;
@@ -39,6 +45,7 @@ const StyledH4Menu = styled.h4`
 	width: 160px;
 	margin: auto;
 	font-weight: 500;
+	text-align:center;
 `;
 const StyledPMenu = styled.p`
 	color: #a0c11d;
@@ -48,6 +55,7 @@ const StyledPMenu = styled.p`
 	font-weight: 500;
 	margin-top: 20px;
 	margin-bottom: 50px;
+	text-align:center;
 `;
 const StyledHr = styled.hr`
 	border: 0.75px solid #e3e3e3;
@@ -59,6 +67,21 @@ const StyledNav = styled.nav`
 	line-height: 40px;
 	margin-top: 50px;
 `;
+const StyledButtonSignOut = styled.button`
+	    background-color: #d81313;
+    padding: 10px 15px;
+    border-radius: 21px;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    border: none;
+    width: 52%;
+    margin-bottom: 15%;
+	&:hover {
+		background-color: #9c1212;
+		cursor:pointer;
+	  }
+`;
 export {
 	StyledLi,
 	StyledLink,
@@ -68,5 +91,6 @@ export {
 	StyledH4Menu,
 	StyledPMenu,
 	StyledHr,
-	StyledNav
+	StyledNav,
+	StyledButtonSignOut
 };

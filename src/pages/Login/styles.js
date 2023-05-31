@@ -2,11 +2,7 @@ import styled from 'styled-components';
 
 const ContenedorLogin = styled.div`
 	text-align: center;
-	margin: auto;
 	width: 500px;
-	margin-top: 10vh;
-	position: absolute;
-    left: 25%;
 `;
 const StyledImg = styled.img`
 	width: 50px;
@@ -72,7 +68,16 @@ const StyledImgGoogle = styled.img`
 	width: 20px;
 	margin-right: 10px;
 `;
-
+const CentrarLogin = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+height: 100vh;
+position: fixed;
+margin-left: -25%;
+top: 0;
+`;
 export {
 	ContenedorLogin,
 	StyledImg,
@@ -85,5 +90,6 @@ export {
 	ForgetPassLoginA,
 	EnterLogin,
 	BtnGoogleLogin,
-	StyledImgGoogle
+	StyledImgGoogle,
+	CentrarLogin
 };

@@ -1,0 +1,110 @@
+[
+    {
+      "cliente": "Juan Pérez",
+      "coste": "150",
+      "fecha": "2023-05-25",
+      "numero": "ALB001",
+      "pago": "Efectivo",
+      "servicios": "Cambio de aceite",
+      "vehiculo": "Ford Fiesta"
+    },
+    {
+      "cliente": "Laura Gómez",
+      "coste": "320",
+      "fecha": "2023-05-24",
+      "numero": "ALB002",
+      "pago": "Tarjeta",
+      "servicios": "Reparación de frenos",
+      "vehiculo": "Volkswagen Golf"
+    },
+    {
+      "cliente": "Pedro Sánchez",
+      "coste": "85",
+      "fecha": "2023-05-23",
+      "numero": "ALB003",
+      "pago": "Transferencia",
+      "servicios": "Cambio de bujías",
+      "vehiculo": "Renault Megane"
+    },
+    {
+      "cliente": "Ana Martínez",
+      "coste": "200",
+      "fecha": "2023-05-22",
+      "numero": "ALB004",
+      "pago": "Efectivo",
+      "servicios": "Reparación de motor",
+      "vehiculo": "Seat Ibiza"
+    },
+    {
+      "cliente": "Javier López",
+      "coste": "120",
+      "fecha": "2023-05-21",
+      "numero": "ALB005",
+      "pago": "Tarjeta",
+      "servicios": "Cambio de neumáticos",
+      "vehiculo": "BMW Serie 3"
+    },
+    {
+      "cliente": "María Rodríguez",
+      "coste": "65",
+      "fecha": "2023-05-20",
+      "numero": "ALB006",
+      "pago": "Efectivo",
+      "servicios": "Cambio de filtro de aire",
+      "vehiculo": "Opel Corsa"
+    },
+    {
+      "cliente": "David Torres",
+      "coste": "180",
+      "fecha": "2023-05-19",
+      "numero": "ALB007",
+      "pago": "Transferencia",
+      "servicios": "Reparación de sistema de escape",
+      "vehiculo": "Audi A4"
+    },
+    {
+      "cliente": "Sofía González",
+      "coste": "95",
+      "fecha": "2023-05-18",
+      "numero": "ALB008",
+      "pago": "Efectivo",
+      "servicios": "Cambio de pastillas de freno",
+      "vehiculo": "Peugeot 208"
+    },
+    {
+      "cliente": "Carlos Herrera",
+      "coste": "240",
+      "fecha": "2023-05-17",
+      "numero": "ALB009",
+      "pago": "Tarjeta",
+      "servicios": "Reparación de sistema de suspensión",
+      "vehiculo": "Mercedes-Benz C-Class"
+    },
+    {
+      "cliente": "Elena Castro",
+      "coste": "75",
+      "fecha": "2023-05-16",
+      "numero": "ALB010",
+      "pago": "Efectivo",
+      "servicios": "Cambio de correa de distribución",
+      "vehiculo": "Citroën C3"
+    },
+    {
+      "cliente": "Miguel Ramírez",
+      "coste": "130",
+      "fecha": "2023-05-15",
+      "numero": "ALB011",
+      "pago": "Transferencia",
+      "servicios": "Reparación de sistema de dirección",
+      "vehiculo": "Ford Focus"
+    },
+    {
+      "cliente": "Patricia Herrera",
+      "coste": "220",
+      "fecha": "2023-05-14",
+      "numero": "ALB012",
+      "pago": "Efectivo",
+      "servicios": "Cambio de amortiguadores",
+      "vehiculo": "Volkswagen Polo"
+    }
+]

@@ -115,8 +115,6 @@ background-color: #d9d9d9;
     position: absolute;
 
 `;
-
-
 export const StyledContainer = styled.div`
 display: flex;
 align-items: center;
@@ -140,18 +138,6 @@ background-color: #a1c11e;
     cursor: pointer;
 `;
 
-export const StyledSearch = styled.input`
-    border: none;
-    padding: 10px;
-    border-radius: 50px;
-    margin-top: 20px;
-`;
-export const StyledPTarjetaMenuDescription = styled.p`
-line-height: 22px;
-font-weight: 500;
-color: #353535;
-width:100%;
-`;
 
 export const StyledTarjetaMenu = styled.div`
 display: flex;
@@ -199,4 +185,36 @@ border: 1px solid #d81313;
   background-color: rgb(216 19 19 / 35%);
   cursor:pointer;
 }
+`;
+
+export const StyledButtonTarjetaPDF = styled.button`
+background-color: rgb(53 216 19 / 19%);
+    padding: 6px 15px;
+    border-radius: 5px;
+    color: rgb(58 161 30);
+    font-weight: 400;
+    margin-right: 5px;
+    border: 1px solid rgb(71 194 59);
+    &:hover {
+        background-color: #35d81366;
+        cursor:pointer;
+      }
+`;
+
+
+export const StyledMenuHome = styled.div`
+display: flex;
+margin-left: 39px;
+font-size: 14px;
+text-transform: capitalize;
+color: #a1c11e;
+font-weight: 500;
+margin-bottom: 5px;
+text-decoration: overline;
+`;
+export const StyledPMenuHome = styled.p`
+width: 100px;
+`;
+export const StyledPMenuHomeBig = styled.p`
+width: 150px;
 `;

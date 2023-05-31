@@ -4,7 +4,20 @@ import { redirect, useNavigate } from 'react-router-dom';
 import { addDoc } from 'firebase/firestore';
 import { blogCollectionReference } from '../../config/firebase.config';
 import UploadPhoto from '../../components/UploadPhoto/UploadPhoto';
-import { ModalContent, ModalContainer, CloseButton } from './styles.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
+import {
+	ModalContent,
+	CloseButton,
+	StyledFormComponent,
+	StyledFormInput,
+	StyledFormTextarea,
+	StyledSaveForm,
+	StyledForm,
+	StyledTitleForm
+} from './styles.js';
 
 const NewPost = ({ closeModal, createPost }) => {
 	const { currentUser } = useContext(AuthContext);
@@ -45,63 +58,77 @@ const NewPost = ({ closeModal, createPost }) => {
 	};
 
 	return (
-		<>
-			<h3>Nueva tarea</h3>
-			<form onSubmit={handleSubmit}>
-				Categoría:{' '}
-				<input
-					type='text'
-					value={categoriaState}
-					onChange={e => setCategoriaState(e.target.value)}
-				/>
-				<br />
-				Cliente:{' '}
-				<input
-					type='text'
-					value={clienteState}
-					onChange={e => setClienteState(e.target.value)}
-				/>
-				<br />
-				Modelo:{' '}
-				<input
-					type='text'
-					value={modeloState}
-					onChange={e => setModeloState(e.target.value)}
-				/>
-				<br />
-				Correo:{' '}
-				<input
-					type='email'
-					value={correoState}
-					onChange={e => setCorreoState(e.target.value)}
-				/>
-				<br />
-				Teléfono:{' '}
-				<input
-					type='tel'
-					value={telefonoState}
-					onChange={e => setTelefonoState(e.target.value)}
-				/>
-				<br />
-				Fecha de entrega:{' '}
-				<input
-					type='date'
-					value={fechaEntregaState}
-					onChange={e => setFechaEntregaState(e.target.value)}
-				/>
-				<br />
-				<textarea
+		<div>
+			<StyledTitleForm>Nueva tarea</StyledTitleForm>
+			<StyledForm onSubmit={handleSubmit}>
+				<StyledFormComponent>
+					<StyledFormInput
+						placeholder='Categoría'
+						type='text'
+						value={categoriaState}
+						onChange={e => setCategoriaState(e.target.value)}
+					/>
+				</StyledFormComponent>
+				<StyledFormComponent>
+					<StyledFormInput
+						placeholder='Cliente'
+						type='text'
+						value={clienteState}
+						onChange={e => setClienteState(e.target.value)}
+					/>
+				</StyledFormComponent>
+
+				<StyledFormComponent>
+					<StyledFormInput
+						placeholder='Modelo'
+						type='text'
+						value={modeloState}
+						onChange={e => setModeloState(e.target.value)}
+					/>
+				</StyledFormComponent>
+
+				<StyledFormComponent>
+					<StyledFormInput
+						placeholder='Correo'
+						type='email'
+						value={correoState}
+						onChange={e => setCorreoState(e.target.value)}
+					/>
+				</StyledFormComponent>
+
+				<StyledFormComponent>
+					<StyledFormInput
+						placeholder='Teléfono'
+						type='tel'
+						value={telefonoState}
+						onChange={e => setTelefonoState(e.target.value)}
+					/>
+				</StyledFormComponent>
+
+				<StyledFormComponent>
+					<StyledFormInput
+						placeholder='Fecha de entrega'
+						type='date'
+						value={fechaEntregaState}
+						onChange={e => setFechaEntregaState(e.target.value)}
+					/>
+				</StyledFormComponent>
+
+				<StyledFormTextarea
+					placeholder='Descripción'
 					type='text'
 					value={descripcionState}
 					onChange={e => setDescripcionState(e.target.value)}
-				></textarea>
-				<br />
+				></StyledFormTextarea>
+
 				{/* <UploadPhoto setimageState={setimageState}></UploadPhoto> */}
-				<br />
-				<input type='submit' value='Publicar nuevo post' />
-				<CloseButton onClick={closeModal}>Cerrar</CloseButton>
-			</form>
-		</>
+
+				<StyledSaveForm type='submit' value='Guardar' />
+				<CloseButton onClick={closeModal}>
+					<FontAwesomeIcon icon={faXmark} />
+				</CloseButton>
+			</StyledForm>
+		</div>
 	);
 };
 

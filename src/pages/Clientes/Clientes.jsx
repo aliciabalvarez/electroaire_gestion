@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
 	addDoc,
 	collection,
@@ -7,9 +9,32 @@ import {
 	getDocs,
 	updateDoc
 } from 'firebase/firestore';
-import { clientesCollectionReference } from '../../config/firebase.config';
+import { db, clientesCollectionReference } from '../../config/firebase.config';
 import Modal from 'react-modal';
-import { ModalContainer, ModalContent, CloseButton } from './styles';
+import {
+	ModalContainer,
+	ModalContentClients,
+	CloseButton,
+	StyledFormComponent,
+	StyledFormInput,
+	StyledFormTextarea,
+	StyledSave,
+	StyledForm,
+	StyledTitleForm,
+	StyledSearch,
+	StyledPTarjetaMenuDescription,
+	StyledButtonTarjetaEditar,
+	StyledButtonTarjetaEliminar,
+	StyledContainer,
+	StyledTitle,
+	StyledNewTask,
+	StyledPTarjetaMenu,
+	StyledPTarjetaMenuBig,
+	StyledTarjetaMenu,
+	StyledMenuHome,
+	StyledPMenuHome,
+	StyledPMenuHomeBig
+} from './styles.js';
 
 function Clientes() {
 	const [showModal, setShowModal] = useState(false);
@@ -232,201 +257,221 @@ function Clientes() {
 
 	return (
 		<div>
-			<h2>Lista de Clientes</h2>
-			<input
-				type='text'
-				placeholder='Buscar por categoría'
-				value={searchTerm}
-				onChange={handleSearchChange}
-			/>
-			<button onClick={abrirModal}>NUEVO CLIENTE</button>
+			<StyledContainer>
+				<div>
+					<StyledTitle>Listado de Clientes</StyledTitle>
+					<StyledSearch
+						type='text'
+						placeholder='Buscar'
+						value={searchTerm}
+						onChange={handleSearchChange}
+					/>
+				</div>
+				<StyledNewTask to='#' onClick={abrirModal}>
+					Nuevo Cliente
+				</StyledNewTask>
+			</StyledContainer>
+
+			<StyledMenuHome>
+				<StyledPMenuHome>Nombre</StyledPMenuHome>
+				<StyledPMenuHomeBig>Email</StyledPMenuHomeBig>
+				<StyledPMenuHome>Teléfono</StyledPMenuHome>
+				<StyledPMenuHome>Vehículo</StyledPMenuHome>
+				<StyledPMenuHome>Matrícula</StyledPMenuHome>
+				<StyledPMenuHomeBig>Último servicio</StyledPMenuHomeBig>
+				<StyledPMenuHomeBig>Fecha creación</StyledPMenuHomeBig>
+				<StyledPMenuHomeBig>Estado cuenta</StyledPMenuHomeBig>
+			</StyledMenuHome>
 
 			{filteredClientes.map(cliente => (
-				<div key={cliente.id}>
-					<h3>{cliente.nombre}</h3>
-					<p>Email: {cliente.email}</p>
-					<p>Teléfono: {cliente.telefono}</p>
-					<p>Vehículo: {cliente.vehiculo}</p>
-					<p>Número de Placa: {cliente.numeroPlaca}</p>
-					<p>Último Servicio: {cliente.ultimoServicio}</p>
-					<p>Fecha de Ingreso: {cliente.fechaIngreso}</p>
-					<p>Estado de Cuenta: {cliente.estadoCuenta}</p>
-					<p>Observaciones: {cliente.observaciones}</p>
-					<button onClick={() => cliente.id && abrirModalEdicion(cliente)}>
-						Editar
-					</button>
-					<button onClick={() => handleDelete(cliente.id)}>Eliminar</button>
-				</div>
+				<StyledTarjetaMenu key={cliente.id}>
+					<StyledPTarjetaMenu>{cliente.nombre}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenuBig>{cliente.email}</StyledPTarjetaMenuBig>
+					<StyledPTarjetaMenu>{cliente.telefono}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenu>{cliente.vehiculo}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenu>{cliente.numeroPlaca}</StyledPTarjetaMenu>
+					<StyledPTarjetaMenuBig>
+						{cliente.ultimoServicio}
+					</StyledPTarjetaMenuBig>
+					<StyledPTarjetaMenuBig>{cliente.fechaIngreso}</StyledPTarjetaMenuBig>
+					<StyledPTarjetaMenuBig>{cliente.estadoCuenta}</StyledPTarjetaMenuBig>
+					<StyledPTarjetaMenuDescription>
+						{cliente.observaciones}
+					</StyledPTarjetaMenuDescription>
+					<StyledButtonTarjetaEditar
+						onClick={() => cliente.id && abrirModalEdicion(cliente)}
+					>
+						<FontAwesomeIcon icon={faPenToSquare} />
+					</StyledButtonTarjetaEditar>
+					<StyledButtonTarjetaEliminar onClick={() => handleDelete(cliente.id)}>
+						<FontAwesomeIcon icon={faXmark} />
+					</StyledButtonTarjetaEliminar>
+				</StyledTarjetaMenu>
 			))}
 
 			{showEditModal && clienteSeleccionado && (
 				<ModalContainer>
-					<ModalContent>
-						<CloseButton onClick={cerrarModalEdicion}>&times;</CloseButton>
-						<h2>Editar cliente</h2>
-						<form onSubmit={handleEditSubmit}>
-							<div>
-								<label>Nombre:</label>
-								<input
+					<ModalContentClients>
+						<StyledTitleForm>Editar cliente</StyledTitleForm>
+						<StyledForm onSubmit={handleEditSubmit}>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Nombre'
 									type='text'
 									value={nombreEdit}
 									onChange={handleNombreEditChange}
 								/>
-							</div>
-							<div>
-								<label>Email:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Email'
 									type='email'
 									value={emailEdit}
 									onChange={handleEmailEditChange}
 								/>
-							</div>
-							<div>
-								<label>Teléfono:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Teléfono'
 									type='text'
 									value={telefonoEdit}
 									onChange={handleTelefonoEditChange}
 								/>
-							</div>
-							<div>
-								<label>Vehículo:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Vehículo'
 									type='text'
 									value={vehiculoEdit}
 									onChange={handleVehiculoEditChange}
 								/>
-							</div>
-							<div>
-								<label>Número de Placa:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Número de Placa'
 									type='text'
 									value={numeroPlacaEdit}
 									onChange={handleNumeroPlacaEditChange}
 								/>
-							</div>
-							<div>
-								<label>Último Servicio:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Último servicio'
 									type='text'
 									value={ultimoServicioEdit}
 									onChange={handleUltimoServicioEditChange}
 								/>
-							</div>
-							<div>
-								<label>Fecha de Ingreso:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Fecha de Ingreso'
 									type='text'
 									value={fechaIngresoEdit}
 									onChange={handleFechaIngresoEditChange}
 								/>
-							</div>
-							<div>
-								<label>Estado de Cuenta:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Estado de cuenta'
 									type='text'
 									value={estadoCuentaEdit}
 									onChange={handleEstadoCuentaEditChange}
 								/>
-							</div>
-							<div>
-								<label>Observaciones:</label>
-								<textarea
-									value={observacionesEdit}
-									onChange={handleObservacionesEditChange}
-								></textarea>
-							</div>
-							<button type='submit'>Guardar cambios</button>
-							<button type='button' onClick={cerrarModalEdicion}>
-								Cerrar
-							</button>
-						</form>
-					</ModalContent>
+							</StyledFormComponent>
+
+							<StyledFormTextarea
+								placeholder='Observaciones'
+								value={observacionesEdit}
+								onChange={handleObservacionesEditChange}
+							></StyledFormTextarea>
+							<StyledSave type='submit' value='Guardar' />
+							<CloseButton type='button' onClick={cerrarModalEdicion}>
+								<FontAwesomeIcon icon={faXmark} />
+							</CloseButton>
+						</StyledForm>
+					</ModalContentClients>
 				</ModalContainer>
 			)}
 			{showModal && (
 				<ModalContainer>
-					<ModalContent>
-						<CloseButton onClick={cerrarModal}>&times;</CloseButton>
-						<h2>Nuevo Cliente</h2>
-						<form onSubmit={handleSubmit}>
-							<div>
-								<label>Nombre:</label>
-								<input
+					<ModalContentClients>
+						<StyledTitleForm>Nuevo Cliente</StyledTitleForm>
+						<StyledForm onSubmit={handleSubmit}>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Nombre'
 									type='text'
 									value={nombre}
 									onChange={event => setNombre(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Email:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Email'
 									type='email'
 									value={email}
 									onChange={event => setEmail(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Teléfono:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Teléfono'
 									type='text'
 									value={telefono}
 									onChange={event => setTelefono(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Vehículo:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Vehículo'
 									type='text'
 									value={vehiculo}
 									onChange={event => setVehiculo(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Número de Placa:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Número de Placa'
 									type='text'
 									value={numeroPlaca}
 									onChange={event => setNumeroPlaca(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Último Servicio:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Último Servicio'
 									type='text'
 									value={ultimoServicio}
 									onChange={event => setUltimoServicio(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Fecha de Ingreso:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Fecha de Ingreso'
 									type='text'
 									value={fechaIngreso}
 									onChange={event => setFechaIngreso(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Estado de Cuenta:</label>
-								<input
+							</StyledFormComponent>
+							<StyledFormComponent>
+								<StyledFormInput
+									placeholder='Estado de cuenta'
 									type='text'
 									value={estadoCuenta}
 									onChange={event => setEstadoCuenta(event.target.value)}
 								/>
-							</div>
-							<div>
-								<label>Observaciones:</label>
-								<textarea
-									value={observaciones}
-									onChange={event => setObservaciones(event.target.value)}
-								></textarea>
-							</div>
-							<button type='submit'>Guardar</button>
-							<button type='button' onClick={cerrarModal}>
-								Cerrar
-							</button>
-						</form>
-					</ModalContent>
+							</StyledFormComponent>
+							<StyledFormTextarea
+								placeholder='Observaciones'
+								value={observaciones}
+								onChange={event => setObservaciones(event.target.value)}
+							></StyledFormTextarea>
+							<StyledSave type='submit' value='Guardar' />
+							<CloseButton type='button' onClick={cerrarModal}>
+								<FontAwesomeIcon icon={faXmark} />
+							</CloseButton>
+						</StyledForm>
+					</ModalContentClients>
 				</ModalContainer>
 			)}
 		</div>

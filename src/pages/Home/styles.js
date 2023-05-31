@@ -103,6 +103,7 @@ border: 1px solid #d81313;
 }
 `;
 
+
 const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -126,6 +127,80 @@ const ModalContent = styled.div`
 const StyledNavLink = styled(NavLink)`
   /* Estilos personalizados para el enlace */
 `;
+
+const CloseButton = styled.button`
+
+position: absolute;
+top: 10px;
+right: 10px;
+border: none;
+background-color: transparent;
+color: #e51919;
+font-size: 25px;
+cursor: pointer;  
+	
+	`;
+  const StyledForm = styled.form`
+
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+
+`;
+const StyledFormComponent = styled.div`
+
+display: grid;
+width: 223px;
+padding: 2px 5px;
+`;
+const StyledFormInput = styled.input`
+
+width: 100%;
+background-color: white;
+border: none;
+padding: 10px 9px;
+border-radius: 30px;
+box-sizing: border-box;
+margin-bottom: 5px;
+
+`;
+const StyledFormTextarea = styled.textarea`
+
+width: 98.8%;
+    background-color: white;
+    border: none;
+    padding: 10px 9px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+    margin-top: 4px;
+    margin-left: 5px;
+
+`;
+const StyledSaveForm = styled.input`
+width: 109px;
+background-color: #9bbb1a;
+border: none;
+padding: 10px 9px;
+border-radius: 30px;
+box-sizing: border-box;
+margin-bottom: 5px;
+left: 585px;
+color: white;
+font-weight: bold;
+cursor: pointer;
+position:relative;
+
+`;
+const StyledTitleForm = styled.h3`
+
+font-size: 23px;
+    margin-left: 7px;
+    color: #656565;
+    font-weight: 400;
+
+`;
 export {
-	ModalWrapper, ModalContent, StyledNavLink, StyledContainer,StyledDescription,StyledNewTask, StyledTitle, StyledSearch, StyledMenuHome, StyledPMenuHomeBig, StyledPMenuHome, StyledTarjetaMenu, StyledButtonTarjetaEditar, StyledButtonTarjetaEliminar, StyledPTarjetaMenuBig, StyledPTarjetaMenu, StyledPTarjetaMenuDescription
+	ModalWrapper, ModalContent, StyledNavLink, StyledContainer,StyledDescription,StyledNewTask, StyledTitle, StyledSearch, StyledMenuHome, StyledPMenuHomeBig, StyledPMenuHome, StyledTarjetaMenu, StyledButtonTarjetaEditar, StyledFormComponent, StyledButtonTarjetaEliminar, StyledPTarjetaMenuBig, StyledPTarjetaMenu, StyledPTarjetaMenuDescription, CloseButton, StyledForm, StyledFormInput, StyledFormTextarea, StyledSaveForm, StyledTitleForm, 
 };
+

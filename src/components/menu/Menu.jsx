@@ -8,12 +8,24 @@ import {
 	StyledH4Menu,
 	StyledPMenu,
 	StyledHr,
-	StyledNav
+	StyledNav,
+	StyledButtonSignOut
 } from './styles.js';
 import { AuthContext } from '../../contexts/Auth.context.js';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase.config';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faHouse,
+	faPaperclip,
+	faUser,
+	faUserTie
+} from '@fortawesome/free-solid-svg-icons';
 
 const Menu = () => {
 	const { currentUser } = useContext(AuthContext);
+	const navigate = useNavigate();
 
 	// Función para agregar la fecha actual
 	const agregarFecha = () => {
@@ -36,6 +48,11 @@ const Menu = () => {
 		return `${fechaFormateada} ${horaFormateada}`;
 	};
 
+	const handleSignOut = async () => {
+		await signOut(auth);
+		navigate('/');
+	};
+
 	return (
 		<nav>
 			<StyledUl>
@@ -56,54 +73,39 @@ const Menu = () => {
 								Sesión iniciada: <br /> {currentUser ? currentUser.email : ''}
 							</StyledH4Menu>
 							<StyledPMenu>{agregarFecha()}</StyledPMenu>{' '}
-							{/* Agrega la fecha y hora de hoy */}
-							{/* Agrega la fecha de hoy */}
+							<StyledButtonSignOut onClick={handleSignOut}>
+								Cerrar sesión
+							</StyledButtonSignOut>
 							<StyledHr />
 							<StyledNav>
 								<ul>
 									<StyledLi>
-										<a href=''>Inicio</a>
+										<StyledLink to='/'>
+											<FontAwesomeIcon icon={faHouse} />
+											&nbsp; INICIO
+										</StyledLink>
 									</StyledLi>
 									<StyledLi>
-										<StyledLink to='/clientes'>CLIENTES</StyledLink>
+										<StyledLink to='/clientes'>
+											<FontAwesomeIcon icon={faUser} />
+											&nbsp; CLIENTES
+										</StyledLink>
 										<ul>
-											<StyledLink to='/albaranescliente'>ALBARANES</StyledLink>
-
-											<StyledLi>
-												<a href=''>Facturas</a>
-											</StyledLi>
+											<StyledLink to='/albaranes'>
+												<FontAwesomeIcon icon={faPaperclip} />
+												&nbsp; ALBARANES
+											</StyledLink>
 										</ul>
 									</StyledLi>
 									<StyledLi>
-										<StyledLink to='/proveedores'>PROVEEDORES</StyledLink>
-										<ul>
-											<StyledLi>
-												<a href=''>Albaranes</a>
-											</StyledLi>
-											<StyledLi>
-												<a href=''>Facturas</a>
-											</StyledLi>
-										</ul>
-									</StyledLi>
-									<StyledLi>
-										<a href=''>Gestor de tareas</a>
-									</StyledLi>
-									<StyledLi>
-										<a href=''>Histórico</a>
-									</StyledLi>
-									{/* <StyledLi>
-										<StyledLink to='/newpost'>NEW POST</StyledLink>
-									</StyledLi> */}
-									<StyledLi>
-										<StyledLink to='/profile'>PROFILE</StyledLink>
+										<StyledLink to='/proveedores'>
+											<FontAwesomeIcon icon={faUserTie} />
+											&nbsp; PROVEEDORES
+										</StyledLink>
 									</StyledLi>
 								</ul>
 							</StyledNav>
 						</ContainerMenu>
-
-						{/* <StyledLi>
-                        <StyledLink to="/register">REGISTER</StyledLink>
-                    </StyledLi> */}
 					</>
 				)}
 			</StyledUl>

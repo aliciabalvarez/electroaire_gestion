@@ -10,7 +10,7 @@ import NewPost from '../pages/NewPost/NewPost';
 import PostDetails from '../pages/PostDetails/PostDetails';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/Auth.context';
-import AlbaranesCliente from '../pages/Albaranescliente/AlbaranesCliente';
+import Albaranes from '../pages/Albaranes/Albaranes';
 
 const Router = () => {
 	const { currentUser } = useContext(AuthContext);
@@ -25,10 +25,10 @@ const Router = () => {
 					</>
 				) : (
 					<>
-						<Route index element={<Home />} />
+						<Route path='/' element={<Home />} />
 
 						<Route path='/clientes' element={<Clientes />} />
-						<Route path='/albaranescliente' element={<AlbaranesCliente />} />
+						<Route path='/albaranes' element={<Albaranes />} />
 						<Route path='/proveedores' element={<Proveedores />} />
 						<Route path='/profile' element={<Profile />} />
 						<Route path='/newpost' element={<NewPost />} />

@@ -10,7 +10,8 @@ import {
 	ForgetPassLoginA,
 	EnterLogin,
 	BtnGoogleLogin,
-	StyledImgGoogle
+	StyledImgGoogle,
+	CentrarLogin
 } from './styles.js';
 
 import { useContext, useState } from 'react';
@@ -36,7 +37,7 @@ const Login = () => {
 	const [userPassLogin, setUserPassLogin] = useState('');
 	const navigate = useNavigate();
 	return (
-		<>
+		<CentrarLogin>
 			<ContenedorLogin>
 				<StyledImg src='../logo.png' alt='' />
 				<TitleH1Login>Inicia sesión</TitleH1Login>
@@ -63,11 +64,11 @@ const Login = () => {
 						onChange={e => setUserPassLogin(e.target.value)}
 					/>{' '}
 					<br />
-					<ForgetPassLogin>
+					{/* <ForgetPassLogin>
 						<ForgetPassLoginA href=''>
 							¿Olvidaste tu contraseña?
 						</ForgetPassLoginA>
-					</ForgetPassLogin>
+					</ForgetPassLogin> */}
 					<EnterLogin type='submit' value='Entrar' />
 				</FormLogin>
 				<BtnGoogleLogin onClick={loginWithGoogle}>
@@ -76,7 +77,7 @@ const Login = () => {
 					Google
 				</BtnGoogleLogin>
 			</ContenedorLogin>
-		</>
+		</CentrarLogin>
 	);
 };
 
